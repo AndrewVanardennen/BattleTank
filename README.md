@@ -3,3 +3,5 @@ An open-world head-to-head tank fight with simple AI, terrain, and advanced cont
 
 ## Tutorial game following UnrealCourse 
 https://github.com/UnrealCourse/04_BattleTank
+
+* Setting up Github -> DONE
