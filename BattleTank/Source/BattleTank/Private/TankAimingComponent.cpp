@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.h"
 
 
@@ -42,9 +43,23 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (Barrel != nullptr)
 	{
-		//auto OwnerName = GetOwner()->GetName();
-		//FString BarrelLocation = Barrel->GetComponentLocation().ToString();
-		//UE_LOG(LogTemp, Warning, TEXT("%s, Aiming at %s from %s"), *OwnerName, *(HitLocation.ToString()), *BarrelLocation);
-		UE_LOG(LogTemp, Warning, TEXT("Firing at %f"), LaunchSpeed);
+		FVector OutLaunchVelocity;
+		FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+		bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
+			this,
+			OutLaunchVelocity,
+			StartLocation,
+			HitLocation,
+			LaunchSpeed,
+			ESuggestProjVelocityTraceOption::DoNotTrace
+		);
+		
+		if (bHaveAimSolution) // Calculate the OutLaunchVelocity
+		{
+			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+			auto TankName = GetOwner()->GetName();
+			UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"),*TankName, *AimDirection.ToString());
+		}
+		// If no solution found do nothing
 	}
 }
