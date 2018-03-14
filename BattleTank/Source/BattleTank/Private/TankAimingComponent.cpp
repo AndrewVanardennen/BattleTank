@@ -5,6 +5,7 @@
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -20,7 +21,14 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
+{
+	if (!TurretToSet) { return; }
+	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
@@ -45,10 +53,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 			MoveBarrelTowards(AimDirection);
 
 		}
-		else {
-			auto Time = GetWorld()->GetTimeSeconds();
-			UE_LOG(LogTemp, Warning, TEXT("%f No aim solve found %f"), Time)
-		}
 		// If no solution found do nothing
 	}
 }
@@ -60,6 +64,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	
 
-	Barrel->Elevate(DeltaRotator.Pitch); // TODO remove magic number
+	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Rotate(DeltaRotator.Yaw);
 
 }
