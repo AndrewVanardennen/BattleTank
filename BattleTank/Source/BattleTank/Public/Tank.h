@@ -54,7 +54,10 @@ private:
 		
 	// Local barrel reference for spawning projectile
 	UTankBarrel* Barrel = nullptr;
+<<<<<<< HEAD
 
 	
 	double LastFireTime = 0;
+=======
+>>>>>>> parent of de2b9f2... Slowdown Firing rate :rocket:
 };
