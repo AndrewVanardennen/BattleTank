@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright AndrewVanardennen
 
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
@@ -15,20 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true; // TODO Should this really tick?
 
-	// ...
-}
-
-
-void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
-	if (!BarrelToSet) { return; }
-	Barrel = BarrelToSet;
-}
-
-void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
-{
-	if (!TurretToSet) { return; }
-	Turret = TurretToSet;
+	
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
@@ -56,8 +43,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		// If no solution found do nothing
 	}
 }
+void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (ensure(Barrel) || ensure(Turret)) { return; }
 	// Work-out difference between current barrel rotation and AimDirection 
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
