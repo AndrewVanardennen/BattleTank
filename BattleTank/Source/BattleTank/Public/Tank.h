@@ -20,7 +20,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
-	void AimAt(FVector HitLocation);
 
 protected:
 	// Called when the game starts or when spawned
