@@ -14,15 +14,9 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+	FoundAimingComponent(AimingComponent);
 
-	if (ensure(AimingComponent))
-	{
-		FoundAimingComponent(AimingComponent);
-	} 
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Controller can't find aiming component at Begin Play"));
-	}
 }
 void ATankPlayerController::Tick(float DeltaTime)
 {
@@ -37,7 +31,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; // Out Parameter
 	if (GetSightRayHitLocation(HitLocation)) // has "side-effect", is going to line trace
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		GetControlledTank()->AimAt(HitLocation);
 	}
 

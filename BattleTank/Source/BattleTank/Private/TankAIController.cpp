@@ -4,7 +4,7 @@
 #include "BattleTank.h"
 #include "Tank.h"
 #include "Engine/World.h"
-
+// Depends on movement component via pahtfinding system
 
 void ATankAIController::Tick(float DeltaTime)
 {

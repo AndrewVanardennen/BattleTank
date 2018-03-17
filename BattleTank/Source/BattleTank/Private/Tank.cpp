@@ -1,11 +1,10 @@
 // Copyright AndrewVanardennen
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
+
 
 
 
@@ -20,13 +19,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay(); // Neede for BP Begin Play to run!
-
-}
-
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
